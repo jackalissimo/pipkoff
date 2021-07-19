@@ -1,0 +1,20 @@
+[[source]]
+url = "https://test.pypi.org/simple"
+verify_ssl = true
+name = "test-pypi"
+
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+tinkoff-invest-openapi-client = "*"
+requests = "*"
+pytest = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
