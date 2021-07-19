@@ -74,7 +74,7 @@ def _test_stocks_get():
     assert type(stocks.payload.instruments) == list
 
 
-def _test_orderbook():
+def test_orderbook():
     """
     Стакан, глубина 1...20
     :return:
@@ -102,6 +102,11 @@ def _test_orderbook():
     assert type(close_price) == float
     assert type(last_price) == float
     assert type(min_price_increment) == float
+    assert asks[0].price < asks[1].price
+    assert type(asks[0].quantity) == int
+    assert bids[0].price < asks[0].price
+    assert bids[1].price < bids[0].price
+
 
 
 def test_market_candles_get_day():
