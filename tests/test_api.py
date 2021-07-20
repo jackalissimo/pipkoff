@@ -147,3 +147,20 @@ def test_market_candles_get_hour():
     assert resp.payload.candles[0].figi == figi
     assert resp.payload.candles[0].interval == CandleResolution.HOUR
 
+
+def test_market_search_by_figi_get():
+    client = openapi.api_client(AUTH_TOKEN)
+    figi = 'BBG0020BCPX5'
+    resp = client.market.market_search_by_figi_get(figi)
+    assert resp.status == 'Ok'
+    assert resp.payload.ticker == 'LASR'
+    assert resp.payload.type == 'Stock'
+
+
+def test_operations_get():
+    client = openapi.api_client(AUTH_TOKEN)
+    dt1 = (datetime.now() - timedelta(hours=12)).strftime("%Y-%m-%dT%H:%M:%S+03:00")
+    dt2 = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+03:00")
+    resp = client.operations.operations_get(_from=dt1, to=dt2, broker_account_id=acc_id)
+    assert type(resp.payload.operations) == list
+

@@ -13,6 +13,7 @@ tinkoff-invest-openapi-client = "*"
 requests = "*"
 pytest = "*"
 python-dotenv = "*"
+bqplot = "*"
 
 [dev-packages]
 
