@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  checkest-api:
+    container_name: pipkoff-python
+    build:
+      context: ${PROJECT_DIR}/docker/python
+      dockerfile: ${PROJECT_DIR}/docker/python/Dockerfile
+    restart: always
+#    command: jupyter-notebook
+    env_file:
+      - ${PROJECT_DIR}/.env
+    environment:
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ${PROJECT_DIR}:/app
+    networks:
+      - shared
+    ports:
+      - 18080:8080
+
+networks:
+  shared:
+    driver: bridge
