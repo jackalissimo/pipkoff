@@ -19,11 +19,11 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install dependencies:
-#COPY requirements.txt .
+COPY requirements.txt .
 RUN pip install --upgrade pip
-#RUN pip install -r requirements.txt
 RUN pip install -i https://test.pypi.org/simple/ --extra-index-url=https://pypi.org/simple/ tinkoff-invest-openapi-client
-RUN pip install flask==1.1.4
+RUN pip install -r requirements.txt
+# RUN pip install flask==1.1.4
 
 # setting User
 RUN groupadd pipkoff -g 1000 && useradd pipkoff -u 1000 -g 1000 -m -s /bin/bash
