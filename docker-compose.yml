@@ -1,13 +1,16 @@
 version: "3"
 
 services:
-  checkest-api:
-    container_name: pipkoff-python
+  pipkoff-notebook:
+    container_name: pipkoff-notebook
     build:
-      context: ${PROJECT_DIR}/docker/python
-      dockerfile: ${PROJECT_DIR}/docker/python/Dockerfile
+      context: ${PROJECT_DIR}/docker/jupyter
+      dockerfile: ${PROJECT_DIR}/docker/jupyter/Dockerfile
+      args:
+        - HOST_UID=${HOST_UID}
+        - HOST_GID=${HOST_GID}
     restart: always
-#    command: jupyter-notebook
+    command: jupyter-notebook
     env_file:
       - ${PROJECT_DIR}/.env
     environment:
@@ -17,7 +20,30 @@ services:
     networks:
       - shared
     ports:
-      - 18080:8080
+      - 8888:8888
+      - 8080:8080
+
+  pipkoff-api:
+    container_name: pipkoff-api
+    build:
+      context: ${PROJECT_DIR}/docker/python
+      dockerfile: ${PROJECT_DIR}/docker/python/Dockerfile
+      args:
+        - HOST_UID=${HOST_UID}
+        - HOST_GID=${HOST_GID}
+    restart: always
+    command: flask run
+    env_file:
+      - ${PROJECT_DIR}/.env
+    environment:
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ${PROJECT_DIR}:/app
+    networks:
+      - shared
+    ports:
+      - 15000:5000
+
 
 networks:
   shared:
