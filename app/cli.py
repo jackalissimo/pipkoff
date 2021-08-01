@@ -6,15 +6,16 @@ from flask.cli import AppGroup
 from app.models import (
     db, Stock
 )
+from app.logic.stock import stock_init_db
 
 
 stock_cli = AppGroup('stock')
 @stock_cli.command('init-db')
-def stock_init_db():
+def cmd_stock_init_db():
     """
     $ flask stock init-db  --- populates stocks table
     """
-    print('---', 'kek')
+    stock_init_db()
 
 
 # DB Create based on Models
