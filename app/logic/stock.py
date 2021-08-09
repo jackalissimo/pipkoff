@@ -19,12 +19,12 @@ def stock_init_db():
             stock = Stock()
             is_new = True
         if not instr.min_price_increment:
-            print('{0} {1}: no min_price_increment, set to 0.01'.format(instr.figi, instr.name))
+            print('{0} {1}: no min_price_increment'.format(instr.figi, instr.name))
         stock.currency = instr.currency
         stock.figi = instr.figi
         stock.isin = instr.isin
         stock.lot = instr.lot
-        stock.min_price_increment = instr.min_price_increment or 0.01
+        stock.min_price_increment = instr.min_price_increment
         stock.name = instr.name
         stock.ticker = instr.ticker
         stock.type = instr.type

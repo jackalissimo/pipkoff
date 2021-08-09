@@ -24,7 +24,7 @@ class Stock(db.Model):
     figi = Column(String(16), nullable=False, unique=True)
     isin = Column(String(16), nullable=False)
     lot = Column(Integer(), nullable=False)
-    min_price_increment = Column(Float(), nullable=False)
+    min_price_increment = Column(Float(), nullable=True)
     name = Column(String(64), nullable=False)
     ticker = Column(String(12), nullable=False, index=True)
     type = Column(String(16), nullable=False)
