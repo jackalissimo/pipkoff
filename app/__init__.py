@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory
-# from flask_cors import CORS
-# from utils.error_logger import ErrorLogger
+from flask_cors import CORS
+from utils.error_logger import ErrorLogger
 # from utils.auth import init_jwt
 from app.models import init_db
 from app.cli import init_cli
@@ -24,13 +24,13 @@ def create_app(env=None):
     if env is not None:
         application.env = env
     application.config.from_object(f"app.config.{application.env.capitalize()}")
-    # ErrorLogger(application)
+    ErrorLogger(application)
     init_db(application)
     init_cli(application)
     # # CORS(application)
-    # CORS(application, resources={r"/*": {"origins": "*"}})
+    CORS(application, resources={r"/*": {"origins": "*"}})
     # init_jwt(application)
-    # init_routes(application)
+    init_routes(application)
 
     return application
 

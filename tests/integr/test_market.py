@@ -1,7 +1,7 @@
-from tests.api.common import TestBaseApi
+from tests.integr.common import TestBaseTinkoffApi
 
 
-class TestMarket(TestBaseApi):
+class TestMarket(TestBaseTinkoffApi):
     def test_market_stocks_get(self):
         stocks = self.client.market.market_stocks_get()  # openapi_genclient.models.market_instrument_list_response.MarketInstrumentListResponse
         assert 'openapi_genclient.models.market_instrument_list_response.MarketInstrumentListResponse' in str(

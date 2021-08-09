@@ -33,7 +33,7 @@ services:
         - HOST_UID=${HOST_UID}
         - HOST_GID=${HOST_GID}
     restart: always
-    command: flask run
+    command: gunicorn -w 4 -b :80 app:app --reload --timeout 300
     env_file:
       - ${PROJECT_DIR}/.env
     environment:
@@ -43,7 +43,7 @@ services:
     networks:
       - shared
     ports:
-      - 15000:5000
+      - 8880:80
 
 
   pipkoff-postgres:
