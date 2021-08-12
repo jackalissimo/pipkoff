@@ -2,12 +2,12 @@ from flask import Blueprint, request, url_for
 from flask_restx import Api as OriginalApi
 from werkzeug.exceptions import HTTPException
 
-# from .market import market_ns
+from .market import market_ns
 # from .portfolio import portfolio_ns
 from .stock import stock_ns
 
 namespaces = [
-    # market_ns,
+    market_ns,
     # portfolio_ns,
     stock_ns,
 ]

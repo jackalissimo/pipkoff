@@ -113,7 +113,6 @@ def test_market_candles_get_day():
     client = openapi.api_client(AUTH_TOKEN)
     ticker = 'VEON'
     figi = 'BBG000QCW561'
-    pf = client.portfolio.portfolio_get(broker_account_id=acc_id)
     dt1 = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%S+03:00")
     dt2 = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+03:00")
     resp = client.market.market_candles_get(figi, _from=dt1, to=dt2, interval=CandleResolution.DAY)
