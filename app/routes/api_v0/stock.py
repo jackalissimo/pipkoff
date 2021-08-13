@@ -20,6 +20,9 @@ stock_req_parser.add_argument(
 stock_req_parser.add_argument(
     name='ticker', type=str, required=False, nullable=True, location='query'
 )
+stock_req_parser.add_argument(
+    name='name', type=str, required=False, nullable=True, location='query'
+)
 
 class StockSchema(ma.Schema):
     class Meta:
@@ -48,8 +51,9 @@ class StockResource(Resource):
         figi = request.args.get('figi', default=None, type=str)
         id = request.args.get('id', default=None, type=int)
         ticker = request.args.get('ticker', default=None, type=str)
-        if (not figi) and (not id) and (not ticker):
-            abort(HTTPStatus.BAD_REQUEST, 'required param: figi|id|ticker')
+        name = request.args.get('name', default=None, type=str)
+        if (not figi) and (not id) and (not ticker) and (not name):
+            abort(HTTPStatus.BAD_REQUEST, 'required param: figi|id|ticker|name')
         and_vals = []
         if figi:
             and_vals.append(Stock.figi == figi)
@@ -57,7 +61,8 @@ class StockResource(Resource):
             and_vals.append(Stock.id == id)
         if ticker:
             and_vals.append(Stock.ticker == ticker)
-
+        if name:
+            and_vals.append(Stock.name.ilike("%{0}%".format(name)))
         stocks = Stock.query.filter(*and_vals).all()
         stock_schema = StockSchema()
         res = stock_schema.dump(stocks, many=True)
