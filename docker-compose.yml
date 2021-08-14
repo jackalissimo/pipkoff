@@ -16,7 +16,7 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
     volumes:
-      - ${PROJECT_DIR}:/app
+      - ${PROJECT_DIR}/jupyter:/app/jupyter
     networks:
       - shared
     ports:
