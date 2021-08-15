@@ -120,7 +120,7 @@ class IntervalResource(Resource):
 def get_date_from(date_to: str, interval: str):
     dt2 = dparser.parse(date_to)
     if interval == 'hour':
-        dt1 = dt2 - timedelta(days=7)
+        dt1 = dt2 - timedelta(hours=7 * 24)
     elif interval == 'day':
         dt1 = dt2 - timedelta(days=90)
     elif interval == 'week':
@@ -128,9 +128,9 @@ def get_date_from(date_to: str, interval: str):
     elif interval == 'month':
         dt1 = dt2 - timedelta(weeks=150)
     elif interval == '30min':
-        dt1 = dt2 - timedelta(days=1)
+        dt1 = dt2 - timedelta(hours=24)
     elif interval == '15min' or interval == '10min':
-        dt1 = dt2 - timedelta(days=1)
+        dt1 = dt2 - timedelta(hours=24)
     elif interval == '5min' or interval == '3min':
         dt1 = dt2 - timedelta(hours=12)
     elif interval == '1min' or interval == '2min':
