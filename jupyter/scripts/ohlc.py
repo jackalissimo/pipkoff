@@ -47,4 +47,18 @@ def show_ohlc(ticker: str, interval="day"):
 
     fig.layout.height="600px"
     return fig
+
+
+def get_intervals():
+    res = requests.get('http://pipkoff-api:80/api/v0/market/intervals')
+    assert res.status_code == 200
+    cont = json.loads(res.content)
+    return cont['data']['intervals']
+
+
+def get_stock(**kwargs):
+    res = requests.get('http://pipkoff-api:80/api/v0/stock', params=kwargs)
+    cont = json.loads(res.content)
+    return cont['data']['stocks']
+    
     
