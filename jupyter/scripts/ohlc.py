@@ -6,11 +6,17 @@ from bqplot import pyplot as plt
 from bqplot import DateScale, LinearScale, Lines, Axis, Figure, OHLC, Tooltip
 
 
-def show_ohlc(ticker: str, interval="day"):
-    print('---hi')
-    res = requests.get('http://pipkoff-api:80/api/v0/market/candles', params={'ticker': ticker, 'interval': interval})
+def show_ohlc(ticker: str, interval="day", **kwargs):
+    params = {'ticker': ticker, 'interval': interval}
+    params.update(kwargs)
+    res = requests.get('http://pipkoff-api:80/api/v0/market/candles', params=params)
     cont = json.loads(res.content)
-    candles = cont['data']['candles']    
+    if not cont['success']:
+        print('---Broker api response:', cont)
+        raise Exception('Api error')
+    candles = cont['data']['candles']
+    if len(candles) == 0:
+        raise Exception("no candles!")
     dfc = pd.DataFrame(candles)
     dfc["time"] = pd.to_datetime(dfc["time"])
     dfc = dfc.set_index("time")

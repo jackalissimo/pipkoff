@@ -79,7 +79,7 @@ class MarketCandlesResource(Resource):
         figi = request.args.get('figi', default=None, type=str)
         ticker = request.args.get('ticker', default=None, type=str)
         interval = request.args.get('interval', default='hour', type=str)
-        _from = request.args.get('to', default=None, type=str)
+        _from = request.args.get('_from', default=None, type=str)
         to = request.args.get('to', default=date_format(datetime.now()), type=str)
         if (not ticker) and (not figi):
             abort(HTTPStatus.BAD_REQUEST, 'required param: figi|ticker')
@@ -128,7 +128,7 @@ def get_date_from(date_to: str, interval: str):
     elif interval == 'month':
         dt1 = dt2 - timedelta(weeks=150)
     elif interval == '30min':
-        dt1 = dt2 - timedelta(days=7)
+        dt1 = dt2 - timedelta(days=1)
     elif interval == '15min' or interval == '10min':
         dt1 = dt2 - timedelta(days=1)
     elif interval == '5min' or interval == '3min':
