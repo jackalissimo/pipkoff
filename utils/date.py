@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def date_format(datetime_: datetime):
+def date_format(datetime_: datetime) -> str:
     """
     :return: str date acceptable by tinkoff api
     """

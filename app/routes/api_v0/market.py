@@ -121,7 +121,7 @@ class IntervalResource(Resource):
         return {'intervals': intervals}, HTTPStatus.OK
 
 
-def get_date_from(date_to: str, interval: str):
+def get_date_from(date_to: str, interval: str) -> str:
     dt2 = dparser.parse(date_to)
     if interval == 'hour':
         dt1 = dt2 - timedelta(hours=7 * 24)
@@ -142,3 +142,78 @@ def get_date_from(date_to: str, interval: str):
     else:
         dt1 = dt2 - timedelta(days=7)
     return date_format(dt1)
+
+
+
+####################################################
+parse_req_parser = RequestParser(bundle_errors=True)
+parse_req_parser.add_argument(
+    name='figi', type=str, required=False, nullable=True
+)
+parse_req_parser.add_argument(
+    name='ticker', type=str, required=False, nullable=True
+)
+parse_req_parser.add_argument(
+    name='stock_id', type=int, required=False, nullable=True
+)
+parse_req_parser.add_argument(
+    name='_from', type=str, required=False, nullable=True
+)
+parse_req_parser.add_argument(
+    name='to', type=str, required=False, nullable=True
+)
+parse_req_parser.add_argument(
+    name='interval', type=str, required=True, nullable=False
+)
+
+
+@market_ns.route("/candles/parse", endpoint='candles-parse')
+class MarketCandlesResource(Resource):
+    @market_ns.expect(parse_req_parser)
+    @market_ns.response(int(HTTPStatus.OK), description="Ok")
+    @market_ns.response(int(HTTPStatus.BAD_REQUEST), description="Bad request")
+    @market_ns.response(int(HTTPStatus.NOT_FOUND), description="Not found")
+    @market_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), description="Server error")
+    def post(self):
+        """
+        FIll db with candles parsed.
+        Usually requires more than 1 request to Broker.
+        """
+        figi = request.args.get('figi', default=None, type=str)
+        ticker = request.args.get('ticker', default=None, type=str)
+        stock_id = request.args.get('stock_id', default=None, type=int)
+        interval = request.args.get('interval', default='hour', type=str)
+        _from = request.args.get('_from', default=None, type=str)
+        to = request.args.get('to', default=date_format(datetime.now()), type=str)
+        dt1 = dparser.parse(to)
+        to = date_format(dt1)
+        if (not ticker) and (not figi) and (not stock_id):
+            abort(HTTPStatus.BAD_REQUEST, 'required param: figi|ticker|stock_id')
+        if not figi:
+            if stock_id:
+                stock = Stock.query.get(stock_id)
+                if not stock:
+                    abort(HTTPStatus.INTERNAL_SERVER_ERROR, 'stock_id not found!')
+                figi = stock.figi
+            elif ticker:
+                stocks = Stock.query.filter(Stock.ticker == ticker).all()
+                if len(stocks) == 0:
+                    abort(HTTPStatus.INTERNAL_SERVER_ERROR, 'no figi found!')
+                if len(stocks) > 1:
+                    figi_str = ", ".join([stock.figi for stock in stocks])
+                    abort(HTTPStatus.INTERNAL_SERVER_ERROR, "figi uncertainty! {0}".format(figi_str))
+                figi = stocks[0].figi
+        if not figi:
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, 'no figi defined!')
+        if interval not in CandleResolution.allowable_values:
+            abort(HTTPStatus.BAD_REQUEST, 'Bad interval!')
+
+        if not _from:
+            _from = get_date_from(to, interval)
+        # TODO: split to few reqs, make async calls
+
+        # tin_resp = client.market.market_candles_get(figi, _from=_from, to=to, interval=interval)
+        # assert tin_resp.status == 'Ok'
+        # assert type(tin_resp.payload.candles) == list
+        # candles = tin_resp.payload.candles
+

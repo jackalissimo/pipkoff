@@ -12,18 +12,10 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import (
     relationship,
     backref,
-    declarative_mixin,
     declared_attr,
-    declarative_base
 )
 from sqlalchemy.ext.hybrid import hybrid_property
-from datetime import datetime
 from .common import db
-
-
-# @declarative_mixin
-# class FKCandleMixin:
-#     pass
 
 
 class Candle(db.Model):
