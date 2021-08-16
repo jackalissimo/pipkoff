@@ -44,6 +44,7 @@ class TinPositionSchema(ma.Schema):
             'figi',
             'isin',
         ]
+        ordered = True
 
 
 @ns.route("", endpoint='portfolio')

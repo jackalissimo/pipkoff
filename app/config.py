@@ -47,6 +47,8 @@ class Config:
     TEMPLATES_AUTO_RELOAD = True
     ERROR_LOG_FILE = f"{PROJECT_PATH}/log/{PROJECT_NAME}.error.log"
 
+    JSON_SORT_KEYS = False
+
 
 class Testing(Config):
     PRESERVE_CONTEXT_ON_EXCEPTION = 1

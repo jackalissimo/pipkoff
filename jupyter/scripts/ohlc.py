@@ -66,5 +66,10 @@ def get_stock(**kwargs):
     res = requests.get('http://pipkoff-api:80/api/v0/stock', params=kwargs)
     cont = json.loads(res.content)
     return cont['data']['stocks']
-    
-    
+
+
+def get_portfolio():
+    res = requests.get('http://pipkoff-api:80/api/v0/portfolio')
+    assert res.status_code == 200
+    cont = json.loads(res.content)
+    return cont['data']
