@@ -8,7 +8,9 @@ from http import HTTPStatus
 from dateutil import parser as dparser
 
 from .common import Resource, abort
-from app.models import Candle, ma, Stock
+from app.models import (
+    ma, Stock
+)
 from openapi_genclient.models import CandleResolution
 from openapi_genclient.models.candle import Candle as TinCandle
 
@@ -38,20 +40,20 @@ candles_req_parser.add_argument(
 )
 
 
-class CandleSchema(ma.Schema):
-    class Meta:
-        model = Candle
-        fields = [
-            'id',
-            'figi',
-            'c',
-            'h',
-            'l',
-            'o',
-            'v',
-            'time',
-            'interval',
-        ]
+# class CandleSchema(ma.Schema):
+#     class Meta:
+#         model = Candle
+#         fields = [
+#             'id',
+#             'figi',
+#             'c',
+#             'h',
+#             'l',
+#             'o',
+#             'v',
+#             'time',
+#             'interval',
+#         ]
 
 class TinCandleSchema(ma.Schema):
     class Meta:
@@ -81,6 +83,8 @@ class MarketCandlesResource(Resource):
         interval = request.args.get('interval', default='hour', type=str)
         _from = request.args.get('_from', default=None, type=str)
         to = request.args.get('to', default=date_format(datetime.now()), type=str)
+        dt1 = dparser.parse(to)
+        to = date_format(dt1)
         if (not ticker) and (not figi):
             abort(HTTPStatus.BAD_REQUEST, 'required param: figi|ticker')
         if not figi:

@@ -46,7 +46,7 @@ def show_ohlc(ticker: str, interval="day", **kwargs):
 
     fig = Figure(marks=[ohlc],
                  axes=[ax_x, ax_y],             
-                 title="CandleStick Chart",
+                 title="{0} {1}".format(ticker, interval),
                  fig_margin= dict(top=60, bottom=40, left=50, right=20),
                  background_style = {"fill":"#ccc"}
           )
