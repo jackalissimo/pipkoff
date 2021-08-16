@@ -42,7 +42,7 @@ class TinPositionSchema(ma.Schema):
             'blocked',
             # 'average_position_price_no_nkd',
             'figi',
-            'isin',
+            # 'isin',
         ]
         ordered = True
 
