@@ -62,7 +62,6 @@ def get_intervals():
     return cont['data']['intervals']
 
 
-
 def parse_stocks():
     res = requests.post('http://pipkoff-api:80/api/v0/stock/init')
     assert res.status_code == 200
@@ -84,5 +83,5 @@ def get_portfolio():
 
 
 
-def parse_candles(ticker: str, interval: str, from_: str, to: str, figi=None):
+def parse_candles(ticker: str, interval: str, _from: str, to: str, figi=None):
     pass

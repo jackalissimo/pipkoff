@@ -70,7 +70,7 @@ class TinCandleSchema(ma.Schema):
 
 
 
-@market_ns.route("/candles", endpoint='candles')
+@market_ns.route('/candles', endpoint='candles')
 class MarketCandlesResource(Resource):
     @market_ns.expect(candles_req_parser)
     @market_ns.response(int(HTTPStatus.OK), description="Ok")
@@ -106,11 +106,6 @@ class MarketCandlesResource(Resource):
         candles = tin_resp.payload.candles
         tin_candle_schema = TinCandleSchema()
         res = tin_candle_schema.dump(candles, many=True)
-
-        # and_vals = []
-        # candles = Candle.query.filter(*and_vals).all()
-        # candle_schema = CandleSchema()
-        # res = candle_schema.dump(candles, many=True)
         return {'candles': res}, HTTPStatus.OK
 
 
@@ -185,8 +180,8 @@ class MarketCandlesResource(Resource):
         interval = request.args.get('interval', default='hour', type=str)
         _from = request.args.get('_from', default=None, type=str)
         to = request.args.get('to', default=date_format(datetime.now()), type=str)
-        dt1 = dparser.parse(to)
-        to = date_format(dt1)
+        dt_to = dparser.parse(to)
+        to = date_format(dt_to)
         if (not ticker) and (not figi) and (not stock_id):
             abort(HTTPStatus.BAD_REQUEST, 'required param: figi|ticker|stock_id')
         if not figi:
