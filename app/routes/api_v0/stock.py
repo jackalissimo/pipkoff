@@ -5,6 +5,7 @@ from http import HTTPStatus
 
 from .common import Resource, abort
 from app.models import Stock, ma
+from app.logic.stock import stock_init_db
 
 stock_ns = Namespace(
     name="stock", description="CRUD stock", path="/stock"
@@ -70,3 +71,16 @@ class StockResource(Resource):
             return {'stocks': res}, HTTPStatus.NOT_FOUND
         return {'stocks': res}, HTTPStatus.OK
 
+
+@stock_ns.route('/init', endpoint='stock-init')
+class StockInitResource(Resource):
+    @stock_ns.response(int(HTTPStatus.OK), description="Запрос создан")
+    @stock_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), description="Ошибка сервера")
+    def post(self):
+        """
+        parse all stocks meta and save to db
+        """
+        if stock_init_db(verbose=True):
+            return {}, HTTPStatus.OK
+        else:
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, 'stocks metadata parsing failed')

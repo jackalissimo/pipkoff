@@ -5,7 +5,7 @@ from app.models import (
 from app.logic.tinkoff_client import client
 
 
-def stock_init_db():
+def stock_init_db(verbose=True):
     stocks = client.market.market_stocks_get()
     total = stocks.payload.total
     assert total > 1000
@@ -18,7 +18,7 @@ def stock_init_db():
         except Exception:
             stock = Stock()
             is_new = True
-        if not instr.min_price_increment:
+        if not instr.min_price_increment and verbose:
             print('{0} {1}: no min_price_increment'.format(instr.figi, instr.name))
         stock.currency = instr.currency
         stock.figi = instr.figi
@@ -31,3 +31,4 @@ def stock_init_db():
         if is_new:
             db.session.add(stock)
         db.session.commit()
+    return True

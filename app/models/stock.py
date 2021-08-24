@@ -29,4 +29,4 @@ class Stock(db.Model):
     ticker = Column(String(12), nullable=False, index=True)
     type = Column(String(16), nullable=False)
     active = Column(Integer(), nullable=False, default='1', server_default='1')
-    date_update = Column(DateTime(), onupdate=func.now(), nullable=True)
+    date_update = Column(DateTime(), default=func.now(), onupdate=func.now(), nullable=True)

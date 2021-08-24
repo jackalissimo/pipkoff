@@ -62,7 +62,14 @@ def get_intervals():
     return cont['data']['intervals']
 
 
-def get_stock(**kwargs):
+
+def parse_stocks():
+    res = requests.post('http://pipkoff-api:80/api/v0/stock/init')
+    assert res.status_code == 200
+    return {'success': True}
+
+
+def get_stock_meta(**kwargs):
     res = requests.get('http://pipkoff-api:80/api/v0/stock', params=kwargs)
     cont = json.loads(res.content)
     return cont['data']['stocks']
@@ -73,3 +80,9 @@ def get_portfolio():
     assert res.status_code == 200
     cont = json.loads(res.content)
     return cont['data']
+
+
+
+
+def parse_candles(ticker: str, interval: str, from_: str, to: str, figi=None):
+    pass
