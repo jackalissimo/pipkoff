@@ -83,3 +83,30 @@ class Candle2Min(Candle):
 
 class Candle1Min(Candle):
     __tablename__ = 'candle_1min'
+
+
+def candle_factory_get(interval: str, clsname_only=False):
+    d = {
+        'hour': 'CandleHour',
+        'day' : 'CandleDay',
+        'week' : 'CandleWeek',
+        'month': 'CandleMonth',
+        '30min': 'Candle30Min',
+        '15min': 'Candle15Min',
+        '10min': 'Candle10Min',
+        '5min' : 'Candle5Min',
+        '3min' : 'Candle3Min',
+        '2min' : 'Candle2Min',
+        '1min' : 'Candle1Min',
+    }
+    if interval in d:
+        if clsname_only:
+            return d[interval]
+        else:
+            return d[interval]()
+    else:
+        raise UnknownIntervalException
+
+
+class UnknownIntervalException(Exception):
+    pass
