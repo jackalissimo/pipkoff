@@ -81,6 +81,11 @@ def get_portfolio():
     return cont['data']
 
 
+def get_operations():
+    res = requests.get('http://pipkoff-api:80/api/v0/operations')
+    assert res.status_code == 200
+    cont = json.loads(res.content)
+    return cont['data']
 
 
 def parse_candles(ticker: str, interval: str, _from: str, to: str, figi=None):

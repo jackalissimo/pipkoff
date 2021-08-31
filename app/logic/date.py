@@ -52,7 +52,6 @@ def get_from_to_intervals(interval: str, dt_from: datetime, dt_to: datetime) -> 
     if dt_from.timestamp() >= dt_to.timestamp():
         return []
     delta = get_timedelta(interval)
-    print('----hi', delta)
     end = dt_to
     start = get_startpoint(end - delta, dt_from)
     res = []

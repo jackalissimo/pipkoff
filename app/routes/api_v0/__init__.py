@@ -5,11 +5,13 @@ from werkzeug.exceptions import HTTPException
 from .market import market_ns
 from .portfolio import portfolio_ns
 from .stock import stock_ns
+from .operations import operations_ns
 
 namespaces = [
     market_ns,
     portfolio_ns,
     stock_ns,
+    operations_ns,
 ]
 
 
