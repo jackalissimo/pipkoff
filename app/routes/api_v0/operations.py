@@ -93,32 +93,6 @@ class OperationsResource(Resource):
         assert type(resp.payload.operations) == list
         # print('---', resp.payload.operations)
 
-        # fields = [
-        #     'date',
-        #     'figi',
-        #     'operation_type',
-        #     'quantity',
-        #     'price',
-        #     'currency',
-        #     'status',
-        #     'trades',
-        #     'instrument_type',
-        #     'is_margin_call',
-        #     'payment',
-        #     'commission',
-        #     'id',
-        # ]
-        # for op in resp.payload.operations:
-        #     print('====')
-        #     for el in fields:
-        #         try:
-        #             v = getattr(op, el)
-        #             print('---', el, v, type(v))
-        #             if type(v) == list:
-        #                 print('-----', type(v[0]), v[0])
-        #         except:
-        #             pass
-
         operations = resp.payload.operations
         tin_operations_schema = TinOperationSchema()
         res = tin_operations_schema.dump(operations, many=True)
