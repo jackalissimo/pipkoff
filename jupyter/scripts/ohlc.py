@@ -88,5 +88,16 @@ def get_operations(**kwargs):
     return cont['data']
 
 
-def parse_candles(ticker: str, interval: str, _from: str, to: str, figi=None):
-    pass
+def parse_candles(**kwargs):
+    """
+    Parse and store candles to db
+    :param kwargs: ticker, interval, _from, to, figi, stock_id
+    :return: dict: candles_parsed, old, new
+    """
+    res = requests.post('http://pipkoff-api:80/api/v0/market/candles/parse', params=kwargs)
+    try:
+        assert res.status_code == 200
+    except:
+        print('---', res)
+    cont = json.loads(res.content)
+    return cont['data']

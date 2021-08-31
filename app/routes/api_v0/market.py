@@ -136,7 +136,7 @@ parse_req_parser.add_argument(
     name='stock_id', type=int, required=False, nullable=True
 )
 parse_req_parser.add_argument(
-    name='from', type=str, required=False, nullable=True
+    name='_from', type=str, required=False, nullable=True
 )
 parse_req_parser.add_argument(
     name='to', type=str, required=False, nullable=True
@@ -162,7 +162,7 @@ class MarketCandlesResource(Resource):
         ticker = request.args.get('ticker', default=None, type=str)
         stock_id = request.args.get('stock_id', default=None, type=int)
         interval = request.args.get('interval', default='hour', type=str)
-        _from = request.args.get('from', default=None, type=str)
+        _from = request.args.get('_from', default=None, type=str)
         to = request.args.get('to', default=date_format(datetime.now()), type=str)
         dt_to = dparser.parse(to)
         to = date_format(dt_to)
