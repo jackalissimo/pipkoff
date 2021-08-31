@@ -81,8 +81,8 @@ def get_portfolio():
     return cont['data']
 
 
-def get_operations():
-    res = requests.get('http://pipkoff-api:80/api/v0/operations')
+def get_operations(**kwargs):
+    res = requests.get('http://pipkoff-api:80/api/v0/operations', params=kwargs)
     assert res.status_code == 200
     cont = json.loads(res.content)
     return cont['data']
