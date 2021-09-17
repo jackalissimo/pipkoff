@@ -101,3 +101,16 @@ def parse_candles(**kwargs):
         print('---', res)
     cont = json.loads(res.content)
     return cont['data']
+
+
+def get_orders():
+    """
+    Get active orders list
+    """
+    res = requests.get('http://pipkoff-api:80/api/v0/orders')
+    try:
+        assert res.status_code == 200
+    except:
+        print('---', res)
+    cont = json.loads(res.content)
+    return cont['data']

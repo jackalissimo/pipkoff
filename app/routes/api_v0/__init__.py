@@ -6,12 +6,14 @@ from .market import market_ns
 from .portfolio import portfolio_ns
 from .stock import stock_ns
 from .operations import operations_ns
+from .orders import orders_ns
 
 namespaces = [
     market_ns,
     portfolio_ns,
     stock_ns,
     operations_ns,
+    orders_ns,
 ]
 
 
