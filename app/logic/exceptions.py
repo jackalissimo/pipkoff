@@ -1,0 +1,3 @@
+
+class ElementNotFoundException(Exception):
+    pass

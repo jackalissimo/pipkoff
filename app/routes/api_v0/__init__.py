@@ -7,6 +7,7 @@ from .portfolio import portfolio_ns
 from .stock import stock_ns
 from .operations import operations_ns
 from .orders import orders_ns
+from .snp500 import snp500_ns
 
 namespaces = [
     market_ns,
@@ -14,6 +15,7 @@ namespaces = [
     stock_ns,
     operations_ns,
     orders_ns,
+    snp500_ns,
 ]
 
 
